@@ -22,7 +22,7 @@ export default function MyChatRooms() {
           },
         };
         const response = await fetch(
-          "http://localhost:8001/yourchatrooms/",
+          "https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/yourchatrooms/",
           headerStuff
         );
         const chatroomsList = await response.json();

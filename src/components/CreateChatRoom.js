@@ -42,7 +42,7 @@ function CreateChatRoom() {
           body: chatRoomFormData,
         };
         let createChatRoomResponse = await fetch(
-          "http://localhost:8001/createchatroom2/",
+          "https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createchatroom2/",
           chatroomData
         );
         let chatroomResult = await createChatRoomResponse.json();

@@ -39,7 +39,7 @@ function ChatRoom() {
         },
       };
       const response = await fetch(
-        `http://localhost:8001/gettingmessages/${slug}/`,
+        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/gettingmessages/${slug}/`,
         header
       );
       const theResult = await response.json();
@@ -194,7 +194,7 @@ function ChatRoom() {
         body: messageInfo,
       };
       const response = await fetch(
-        `http://localhost:8001/createmessages/${slug}/`,
+        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
         header
       );
       const result = await response.json();
@@ -232,7 +232,7 @@ function ChatRoom() {
           body: messageInfo,
         };
         const response = await fetch(
-          `http://localhost:8001/createmessages/${slug}/`,
+          `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
           header
         );
         const result = await response.json();
