@@ -14,27 +14,26 @@ function ChatRoom() {
   });
 
   let messageListEndRef = useRef(false);
+  let messageSender = useRef(null);
+  let messageSenderMobile = useRef(null);
 
   const formreset = useRef(null);
 
   function scrollToBottom() {
+
+    console.log(messageListEndRef.current)
     if (messageListEndRef.current != false) {
-      console.log("jdfkla;fjakl;jdfk;ajfdl;ajdkf;ajdkf;ajkdfal");
-      return messageListEndRef.current?.scrollIntoView();
+      return messageListEndRef.current.scrollIntoView();
     }
+    
   }
 
-  console.log(
-    "the messages in the chat line 10: ",
-    messagesInTheChat.chatMessages,
-    messagesInTheChat.loading
-  );
   let messages = [];
   const navigate = useNavigate();
-  console.log("this is me from the very beggining in the chat chatroom file");
+
+  console.log('this console log can be found in the beginning of the code');
 
   async function retrieveMessages() {
-    console.log("function ran inside the setInterval");
     try {
       let header = {
         headers: {
@@ -42,35 +41,31 @@ function ChatRoom() {
         },
       };
       const response = await fetch(
-        `http://localhost:8001/gettingmessages/${slug}/`,
+        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/gettingmessages/${slug}/`,
         header
       );
       const theResult = await response.json();
-      console.log("the real result before anything is: ", theResult);
-
+      console.log('this is running when???')
+      
       //return the user back to the list of chat rooms if the chat room cant be found (if user manually types in the chat room in the url):
-      if (theResult.NoRoomFound) {
+      if (!theResult.RoomFound) {
         navigate("/home/chatrooms");
       } else {
-        console.log("the result of the result is: ", theResult.MessagesInChatRoom);
 
         let lastOne = false;
 
-        if (theResult.MessagesInChatRoom.length > messagesInTheChat.chatMessages.length) {
-          console.log(
-            "the theResult chats length is greater than: messagesInChatState"
-          );
+        if (
+          theResult.MessagesInChatRoom.length >
+          messagesInTheChat.chatMessages.length
+        ) {
           messageListEndRef.current = true;
         } else {
-          console.log("apparently its smaller???");
           messageListEndRef.current = false;
         }
         messages = theResult.MessagesInChatRoom.map((x) => {
-
           //get the time of the message and adjust it to the proper time:
-          let xTime = new Date(x.dateCreated)
-          console.log(xTime.getHours())
-          
+          let xTime = new Date(x.dateCreated);
+
           if (!theResult.MessagesInChatRoom[x + 1]) {
             lastOne = true;
           }
@@ -100,18 +95,9 @@ function ChatRoom() {
                       }
                     >
                       <div className={styles.chatStructure}>
-                        <span className={styles.chatStructureSpan}>
+                        <div className={styles.chatStructureSpan}>
                           {x.message}
-                        </span>
-                        <span className={styles.chatStructureSpan2}>
-                          <span
-                            className={styles.chatStructureSpan2TimeStructure}
-                          >
-                            <span className={styles.chatStructureSpan2TimeSpec}>
-                              <span className={styles.chat2Time}>{xTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-                            </span>
-                          </span>
-                        </span>
+                        </div>
                       </div>
                       <div
                         style={{
@@ -143,7 +129,10 @@ function ChatRoom() {
                               verticalAlign: "top",
                             }}
                           >
-                            {xTime.toLocaleTimeString([], { hour: 'numeric', minute: "2-digit" })}
+                            {xTime.toLocaleTimeString([], {
+                              hour: "numeric",
+                              minute: "2-digit",
+                            })}
                           </span>
                         </div>
                       </div>
@@ -160,10 +149,11 @@ function ChatRoom() {
         //this if check will update the state if the messages list contains at least one message:
         //if not don't update the state and just do the intial render
         if (messages.length > 0) {
-          console.log(messages);
+          // console.log(messages);
 
           getMessages({ loading: false, chatMessages: messages });
-        } else {
+        } 
+        else {
           getMessages({ loading: false, chatMessages: [] });
         }
       }
@@ -171,51 +161,31 @@ function ChatRoom() {
       console.error("the error that occured is: ", err);
     }
 
-    //this initially checks if the state has any messages. If it doesn't run the function
-    //keep in mind thaat once the function runs, and it does find messages, the state will update, meaining it will re-render
-    //this if statement will run again, but this time since there is are messages, it doesnt run the function. This prevents an infinite loop
-    // if (messagesInTheChat.length == 0) {
-    //   console.log(
-    //     "the length of messages in the chat is: ",
-    //     messagesInTheChat.length
-    //   );
-    //   retrieveMessages();
-    // }
     return messages;
   }
 
   //we're going to use a useeffect so that we can load the messages and also reload/re-render them every second.
   useEffect(() => {
-    console.log(
-      "the length of the messages is, ",
-      messagesInTheChat.chatMessages.length
-    );
-    console.log(
-      "im assuming this ran after the render like it's supposed to",
-      messageListEndRef.current
-    );
-
+    console.log('hi hi hi')
     const interval = setInterval(async () => {
-      console.log("this is the time interval");
       retrieveMessages();
-    }, 1000);
+    }, 2000);
 
     if (messageListEndRef.current != false) {
-      console.log("do we get here?");
       scrollToBottom();
     }
     return () => clearInterval(interval);
   }, [messagesInTheChat.chatMessages]);
 
-  async function sendMessage(e) {
+
+  //function for sending a message through mobile site.
+  async function sendMessageMobile(e) {
     e.preventDefault();
     let formData = e.target;
     let messageInfo = new FormData();
-    messageInfo.append("message", formData["message"].value);
+    messageInfo.append("message", messageSenderMobile.current.innerText);
     messageInfo.append("author", localStorage.getItem("auth-token"));
-    console.log("e is : ", e.target["message"].value);
-    console.log("the slug is: ", slug);
-    console.log("the form data is: ", messageInfo);
+
     try {
       let header = {
         method: "POST",
@@ -225,26 +195,69 @@ function ChatRoom() {
         body: messageInfo,
       };
       const response = await fetch(
-        `http://localhost:8001/createmessages/${slug}/`,
+        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
         header
       );
       const result = await response.json();
-      console.log("the result is: ", result);
     } catch (err) {
       console.error(err);
     }
-    formreset.current.value = "";
+    messageSenderMobile.current.innerHTML = "";
   }
 
-  console.log("test to seee if this runs before the useeffect");
+  //this function is for when the user is in desktop view modes. unlike the mobile view, the desktops wont have a button to send the message.
+  //the user will press the 'enter' key (just like in most messaging applications). However, the keys for 'return' are shift+enter. In this case,
+  // this function determines which key is being pressed. If its just the enter key, send the post request. If its the combination, then simply create a 'return'
+  let key = { Enter: false, Shift: false };
+  async function sendMessage(e) {
+
+    if (e.key === "Enter" && key.Shift == false) {
+      e.preventDefault();
+      key.Enter = true;
+      let formData = e.target;
+      let messageInfo = new FormData();
+      messageInfo.append("message", messageSender.current.innerText);
+      messageInfo.append("author", localStorage.getItem("auth-token"));
+
+      try {
+        let header = {
+          method: "POST",
+          headers: {
+            Authorization: "Token " + localStorage.getItem("auth-token"),
+          },
+          body: messageInfo,
+        };
+        const response = await fetch(
+          `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
+          header
+        );
+        const result = await response.json();
+      } 
+      catch (err) {
+        console.error(err);
+      }
+      messageSender.current.innerHTML = "";
+    }
+
+    if (e.key === "Shift") {
+      key.Shift = true;
+    }
+  }
+
+  function onKeyUp(e) {
+    if (e.key === "Enter") {
+      key.Enter = false;
+    }
+    if (e.key === "Shift") {
+      key.Shift = false;
+    }
+
+  }
 
   if (
-    messagesInTheChat.chatMessages.length == 0 &&
-    messagesInTheChat.loading == true
-  ) {
-    console.log(
-      "are we reaching this part of the code wheere the user is just saying some bullshit for no reason "
-    );
+    messagesInTheChat.chatMessages.length == 0 && messagesInTheChat.loading == true
+  )
+  {
     retrieveMessages();
   }
 
@@ -261,7 +274,11 @@ function ChatRoom() {
                 <div style={{ flex: "1 1 auto", minHeight: "12px" }}></div>
                 <div className={styles.chatMainDiv}>
                   <div style={{ width: "100%" }}>
-                    <div className={styles.chatMessagesContainerMessageFirstMessage}>
+                    <div
+                      className={
+                        styles.chatMessagesContainerMessageFirstMessage
+                      }
+                    >
                       <span></span>
                       <div
                         className={styles.chatMessagesContainerMessageDetail}
@@ -281,9 +298,9 @@ function ChatRoom() {
                                 <span className={styles.chatStructureSpan}>
                                   Bienvenidos a este cuarto de chat. No se
                                   permite el acoso o mensajes que promueven la
-                                  violencia. Si a caso se encuentra mensajes que
-                                  van en contra estas reglas la cuenta a la que
-                                  los mensajes pertenecen será prohibido.
+                                  violencia. Si a caso se encuentran mensajes
+                                  que van en contra estas reglas la cuenta a la
+                                  que los mensajes pertenecen será prohibido.
                                 </span>
                               </div>
                             </div>
@@ -298,17 +315,33 @@ function ChatRoom() {
               </div>
             </div>
           </main>
-          <form className={styles.chatMainForm} onSubmit={sendMessage}>
-            <input
-              type="text"
-              ref={formreset}
-              placeholder="Enviar Mensaje"
-              name="message"
-              maxLength="950"
-            ></input>
-            <button style={{ display: "none" }} type="submit">
-              Submit your message
-            </button>
+          <form className={styles.chatMainForm}>
+            <div className={styles.chatMainFormContainerInputContainer}>
+              <span
+                className={styles.chatMainFormContainerInputContainerContainer}
+                role="textbox"
+                contentEditable
+                ref={messageSender}
+                onKeyDown={sendMessage}
+                onKeyUp={onKeyUp}
+              ></span>
+            </div>
+          </form>
+          <form
+            className={styles.chatMainFormMobileView}
+            onSubmit={sendMessageMobile}
+          >
+            <div className={styles.chatMainFormContainerInputContainer}>
+              <span
+                className={styles.chatMainFormContainerInputContainerContainer}
+                role="textbox"
+                contentEditable
+                ref={messageSenderMobile}
+              ></span>
+              <button className={styles.inputSendMessage} type="submit">
+                &gt;
+              </button>
+            </div>
           </form>
         </div>
       </div>

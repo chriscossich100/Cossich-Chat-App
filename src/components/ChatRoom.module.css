@@ -319,7 +319,7 @@
     background-color: #fafafa;
     padding: 10px;
     border-radius: 5px;
-    font-size: 12px;
+    font-size: 16px;
     text-align: left;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -331,6 +331,7 @@
     display: inline-block;
     align-self: flex-end;
     background-color: #d9fdd3;
+    color: #000;
     border: 1px solid #d9fdd3;
     font-size: 20px;
     margin-left: 10px;

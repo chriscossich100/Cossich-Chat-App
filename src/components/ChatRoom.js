@@ -20,16 +20,16 @@ function ChatRoom() {
   const formreset = useRef(null);
 
   function scrollToBottom() {
-
-    console.log(messageListEndRef.current)
+    
     if (messageListEndRef.current != false) {
       return messageListEndRef.current.scrollIntoView();
     }
-    
   }
 
   let messages = [];
   const navigate = useNavigate();
+
+
 
   async function retrieveMessages() {
     try {
@@ -48,11 +48,6 @@ function ChatRoom() {
       if (!theResult.RoomFound) {
         navigate("/home/chatrooms");
       } else {
-        // console.log(
-        //   "the result of the result is: ",
-        //   theResult.MessagesInChatRoom
-        // );
-
         let lastOne = false;
 
         if (
@@ -150,7 +145,6 @@ function ChatRoom() {
         //this if check will update the state if the messages list contains at least one message:
         //if not don't update the state and just do the intial render
         if (messages.length > 0) {
-          // console.log(messages);
 
           getMessages({ loading: false, chatMessages: messages });
         } else {
@@ -167,15 +161,15 @@ function ChatRoom() {
   //we're going to use a useeffect so that we can load the messages and also reload/re-render them every second.
   useEffect(() => {
     const interval = setInterval(async () => {
-      retrieveMessages();
-    }, 1000);
-
+      if (messagesInTheChat.chatMessages.length != 0) {
+        await retrieveMessages();
+      }
+    }, 1200);
     if (messageListEndRef.current != false) {
       scrollToBottom();
     }
     return () => clearInterval(interval);
   }, [messagesInTheChat.chatMessages]);
-
 
   //function for sending a message through mobile site.
   async function sendMessageMobile(e) {
@@ -204,20 +198,15 @@ function ChatRoom() {
     messageSenderMobile.current.innerHTML = "";
   }
 
-  if (
-    messagesInTheChat.chatMessages.length == 0 &&
-    messagesInTheChat.loading == true
-  ) {
-    retrieveMessages();
-  }
-
   //this function is for when the user is in desktop view modes. unlike the mobile view, the desktops wont have a button to send the message.
   //the user will press the 'enter' key (just like in most messaging applications). However, the keys for 'return' are shift+enter. In this case,
   // this function determines which key is being pressed. If its just the enter key, send the post request. If its the combination, then simply create a 'return'
   let key = { Enter: false, Shift: false };
   async function sendMessage(e) {
+    
     if (e.key === "Enter" && key.Shift == false) {
       e.preventDefault();
+      key.Enter = true;
       let formData = e.target;
       let messageInfo = new FormData();
       messageInfo.append("message", messageSender.current.innerText);
@@ -242,13 +231,6 @@ function ChatRoom() {
       messageSender.current.innerHTML = "";
     }
 
-    if (
-      messagesInTheChat.chatMessages.length == 0 &&
-      messagesInTheChat.loading == true
-    ) {
-      retrieveMessages();
-      key.Enter = true;
-    }
     if (e.key === "Shift") {
       key.Shift = true;
     }
@@ -261,6 +243,13 @@ function ChatRoom() {
     if (e.key === "Shift") {
       key.Shift = false;
     }
+  }
+
+  if (
+    messagesInTheChat.chatMessages.length == 0 &&
+    messagesInTheChat.loading == true
+  ) {
+    retrieveMessages();
   }
 
   return (
