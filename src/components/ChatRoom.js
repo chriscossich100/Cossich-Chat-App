@@ -17,8 +17,6 @@ function ChatRoom() {
   let messageSender = useRef(null);
   let messageSenderMobile = useRef(null);
 
-  const formreset = useRef(null);
-
   function scrollToBottom() {
     
     if (messageListEndRef.current != false) {
@@ -32,6 +30,7 @@ function ChatRoom() {
 
 
   async function retrieveMessages() {
+    console.log('hi by kiye')
     try {
       let header = {
         headers: {
@@ -165,6 +164,7 @@ function ChatRoom() {
         await retrieveMessages();
       }
     }, 1200);
+    console.log('time is money bro!!!!!')
     if (messageListEndRef.current != false) {
       scrollToBottom();
     }
@@ -196,6 +196,12 @@ function ChatRoom() {
       console.error(err);
     }
     messageSenderMobile.current.innerHTML = "";
+
+    //only call the request if there are no messages. This is only called when the user sent the initial message
+    if (messagesInTheChat.chatMessages.length <= 0) {
+      
+      retrieveMessages();
+    }
   }
 
   //this function is for when the user is in desktop view modes. unlike the mobile view, the desktops wont have a button to send the message.
@@ -203,6 +209,7 @@ function ChatRoom() {
   // this function determines which key is being pressed. If its just the enter key, send the post request. If its the combination, then simply create a 'return'
   let key = { Enter: false, Shift: false };
   async function sendMessage(e) {
+    
     
     if (e.key === "Enter" && key.Shift == false) {
       e.preventDefault();
@@ -229,6 +236,11 @@ function ChatRoom() {
         console.error(err);
       }
       messageSender.current.innerHTML = "";
+      
+      //only call the request if there are no messages. This is only called when the user sent the initial message
+      if (messagesInTheChat.chatMessages.length <= 0) {
+        retrieveMessages();
+      }
     }
 
     if (e.key === "Shift") {
@@ -245,6 +257,7 @@ function ChatRoom() {
     }
   }
 
+  //run this code as initial message retriever:
   if (
     messagesInTheChat.chatMessages.length == 0 &&
     messagesInTheChat.loading == true
