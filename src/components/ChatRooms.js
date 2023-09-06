@@ -53,7 +53,7 @@ function ChatRooms() {
                 >
                   <div className={styles.chatRoomCardContent}>
                     <h2>{chatrooms.name}</h2>
-                    <span>{chatrooms.description.length > 115 ? chatrooms.description.substring(1,115) + "..." : chatrooms.description}</span>
+                    <span>{chatrooms.description.length > 115 ? chatrooms.description.substring(0,170) + "..." : chatrooms.description}</span>
                     <div className={styles.chatRoomCardContentCreator}>
                       <div className={styles.createrInfo}>
                         <span className={styles.createInfoSpan}>
@@ -88,9 +88,9 @@ function ChatRooms() {
       <main className={styles.chatRoomsMain}>{chatRooms.chatRooms}</main>
     </div>
   ) : chatRooms.loading ? (
-    <div className={styles.chatRoomsContainer}><h1 style={{ margin: "0px" }}>Loading Chat Rooms</h1></div>
+    <div className={styles.chatRoomsContainer}><h1 style={{ margin: "0px" }}>Cargando Cuartos De Chat</h1></div>
   ) : (
-    <div className={styles.chatRoomsContainer}><h1 style={{ margin: "0px" }}>No Chat Rooms Found</h1></div>
+    <div className={styles.chatRoomsContainer}><h1 style={{ margin: "0px" }}>Aún no hay cuartos</h1></div>
   );
 }
 

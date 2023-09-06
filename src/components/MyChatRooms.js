@@ -93,11 +93,11 @@ export default function MyChatRooms() {
     </div>
   ) : myChatRoomList.loading ? (
     <div className={styles.chatRoomsContainer}>
-      <h1 style={{ margin: "0px" }}>Loading Chat Rooms</h1>
+      <h1 style={{ margin: "0px" }}>Cargando Cuartos De Chat</h1>
     </div>
   ) : (
     <div className={styles.chatRoomsContainer}>
-      <h1 style={{ margin: "0px" }}>You Haven't Created Any Chat Rooms Yet!</h1>
+      <h1 style={{ margin: "0px" }}>Aún No Has Creado Un Cuarto De Chat!</h1>
     </div>
   );
 }
