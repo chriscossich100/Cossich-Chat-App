@@ -50,6 +50,10 @@ This can be done by setting a file inside the main directory folder and naming i
 
 **AN IMPORTANT NOTE: **
 When using Enviornment variables, React requires that the initial variable have the part "REACT_APP" 
+
+As mentioned already, if we're going to use enviornment variables to decide which link will be used for dev or production, the production env variable can be set with your host provider. In this case,
+the application is hosted by Vercel. They allow you to easily set the enviornment variable from there. Just make sure, if using vercel, to state that this environment variable is for production.
+Set the name to REACT_APP_DB and the variable name to the production backend url.
   
   
 ### `"start": "env-cmd -f .env.dev react-scripts start`
