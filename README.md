@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Welcome to my Chat App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  
 
-## Available Scripts
+Welcome to my simple chat application built using React. This simple app allows you to chat with other users and create chat rooms
 
-In the project directory, you can run:
+  
+
+## Getting Started
+
+This app should start to work in just a few steps:
+
+  
+
+### `npm install`
+
+In order to use this application, the first that needs to be done is run the command: npm install
+
+  
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Once you have npm installed in the application you can run the command `npm start`. This is sufficient to run basic part of the app.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  
 
-### `npm test`
+### Backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This app relies heavily on the backend ([backend repository available](https://github.com/chriscossich100/chat-app-backend))
 
-### `npm run build`
+In my case, I decided to use Django as my backend. If, you decide to try out the backend code i provided, you can simply follow the instructions on that repo to officially start using this application. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once you have your backend code ready or if you're using the repo I provided the next step would be to configure the local environments for either development or production:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Configuring .env files:
 
-### `npm run eject`
+since I want to use different api urls for either dev or production, The frontend uses environment variables.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+However, the environment variable configured here should only be the development one, as the production environment variable will be configured through the host provider.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### `npm install env-cmd`
+**If you don't plan on using Environment Variables you can skip this part || You can simply run the backend code just make sure to change all the links to the server name. Ex: localhost:8000**
+One way to utilize environment variables is to install env-cmd. this can be done with the command `npm install env-cmd`. Once you have this, you can create a .env file for development.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+This can be done by setting a file inside the main directory folder and naming it ".env.dev". Once that is created, create the variable `REACT_APP_DB` and set it equal to the name of your localhost backend. Ex:  The .env.dev file should look something like this: `REACT_APP_DB=http://localhost:8000`. 
 
-## Learn More
+**AN IMPORTANT NOTE: **
+When using Enviornment variables, React requires that the initial variable have the part "REACT_APP" 
+  
+  
+### `"start": "env-cmd -f .env.dev react-scripts start`
+Once you have the .env.dev file set up, in the package.json file, `"start": "react-scripts start"` to `"start": "env-cmd -f .env.dev react-scripts start"
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Finally, if you plan on creating your own repository on github, make sure to create a .gitignore file and add the .env.dev file to it.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+With this set up, your environment variable will contain the link info to the backend. 
