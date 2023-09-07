@@ -112,7 +112,7 @@
   line-height: 20px;
   background-color: #fafafa;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 25px;
   font-size: 12px;
   text-align: left;
   overflow-x: hidden;
@@ -129,6 +129,10 @@
 
 .inputSendMessage:focus {
     outline: 0;
+}
+
+.imageMessage {
+  width: 100%;
 }
 
 .chatMainFormContainerInputContainerContainer[contenteditable]:empty::before {
@@ -318,7 +322,6 @@
     line-height: 20px;
     background-color: #fafafa;
     padding: 10px;
-    border-radius: 5px;
     font-size: 16px;
     text-align: left;
     overflow-x: hidden;

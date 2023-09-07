@@ -6,6 +6,7 @@ import styles from "./ChatRoom.module.css";
 function ChatRoom() {
   //set the specific slug from the params using useParams:
   const { slug } = useParams();
+
   //set state to load all the messages in the chat room and a loading state while the messages load.
   const [messagesInTheChat, getMessages] = useState({
     loading: true,
@@ -18,7 +19,6 @@ function ChatRoom() {
   let messageSenderMobile = useRef(null);
 
   function scrollToBottom() {
-    
     if (messageListEndRef.current != false) {
       return messageListEndRef.current.scrollIntoView();
     }
@@ -27,18 +27,26 @@ function ChatRoom() {
   let messages = [];
   const navigate = useNavigate();
 
-
-
   async function retrieveMessages() {
-    
     try {
       let header = {
         headers: {
           Authorization: "Token " + localStorage.getItem("auth-token"),
         },
       };
+
+      //convert the url string to complete unicode in case it includes any tildes, accents or emojis.
+      let unicode = slug.split("").map((i) => {
+        var temp = i.charCodeAt(0).toString(16).toUpperCase();
+        if (temp.length > 2) {
+          return "\\u" + temp;
+        }
+        return i;
+      });
+
+      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
       const response = await fetch(
-        `${process.env.REACT_APP_DB}/gettingmessages/${slug}/`,
+        `${process.env.REACT_APP_DB}/gettingmessages/${finalizedUnicode}/`,
         header
       );
       const theResult = await response.json();
@@ -144,7 +152,6 @@ function ChatRoom() {
         //this if check will update the state if the messages list contains at least one message:
         //if not don't update the state and just do the intial render
         if (messages.length > 0) {
-
           getMessages({ loading: false, chatMessages: messages });
         } else {
           getMessages({ loading: false, chatMessages: [] });
@@ -175,6 +182,18 @@ function ChatRoom() {
     e.preventDefault();
     let formData = e.target;
     let messageInfo = new FormData();
+
+    //convert the url string to complete unicode in case it includes any tildes, accents or emojis.
+    let unicode = slug.split("").map((i) => {
+      var temp = i.charCodeAt(0).toString(16).toUpperCase();
+      if (temp.length > 2) {
+        return "\\u" + temp;
+      }
+      return i;
+    });
+
+    let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+
     messageInfo.append("message", messageSenderMobile.current.innerText);
     messageInfo.append("author", localStorage.getItem("auth-token"));
 
@@ -187,18 +206,20 @@ function ChatRoom() {
         body: messageInfo,
       };
       const response = await fetch(
-        `${process.env.REACT_APP_DB}/createmessages/${slug}/`,
+        `${process.env.REACT_APP_DB}/createmessages/${finalizedUnicode}/`,
         header
       );
       const result = await response.json();
     } catch (err) {
       console.error(err);
     }
+
+    //reset the value of the message and also focus on the element so user doesn't have to reclick the message par
     messageSenderMobile.current.innerHTML = "";
+    messageSenderMobile.current.focus();
 
     //only call the request if there are no messages. This is only called when the user sent the initial message
     if (messagesInTheChat.chatMessages.length <= 0) {
-      
       retrieveMessages();
     }
   }
@@ -208,13 +229,23 @@ function ChatRoom() {
   // this function determines which key is being pressed. If its just the enter key, send the post request. If its the combination, then simply create a 'return'
   let key = { Enter: false, Shift: false };
   async function sendMessage(e) {
-    
-    
     if (e.key === "Enter" && key.Shift == false) {
       e.preventDefault();
       key.Enter = true;
       let formData = e.target;
       let messageInfo = new FormData();
+
+      //convert the url string to complete unicode in case it includes any tildes, accents or emojis.
+      let unicode = slug.split("").map((i) => {
+        var temp = i.charCodeAt(0).toString(16).toUpperCase();
+        if (temp.length > 2) {
+          return "\\u" + temp;
+        }
+        return i;
+      });
+
+      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+      
       messageInfo.append("message", messageSender.current.innerText);
       messageInfo.append("author", localStorage.getItem("auth-token"));
 
@@ -227,7 +258,7 @@ function ChatRoom() {
           body: messageInfo,
         };
         const response = await fetch(
-          `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
+          `${process.env.REACT_APP_DB}/createmessages/${finalizedUnicode}/`,
           header
         );
         const result = await response.json();
@@ -235,7 +266,7 @@ function ChatRoom() {
         console.error(err);
       }
       messageSender.current.innerHTML = "";
-      
+
       //only call the request if there are no messages. This is only called when the user sent the initial message
       if (messagesInTheChat.chatMessages.length <= 0) {
         retrieveMessages();

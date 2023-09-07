@@ -28,7 +28,17 @@ function CreateChatRoom() {
       //get the form data to creat the chat room:
       let form = e.target;
       let chatRoomFormData = new FormData();
+      let unicode = form["chatroom"].value.split("").map((i) => {
+        var temp = i.charCodeAt(0).toString(16).toUpperCase();
+        if (temp.length > 2) {
+          return "\\u" + temp;
+        }
+        return i;
+      });
+      //convert the url to complete unicode incase there are special characters like tildes, accents, or emojis.
+      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
       chatRoomFormData.append("name", form["chatroom"].value);
+      chatRoomFormData.append('nameslug', finalizedUnicode.replace(/\s/g, '-')) //replace any white space with '-'
       chatRoomFormData.append("description", form["description"].value);
 
       //when sending a post request there could be some issues, so that's why we're using a try catch block just in case:
