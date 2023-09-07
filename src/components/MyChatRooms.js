@@ -22,7 +22,7 @@ export default function MyChatRooms() {
           },
         };
         const response = await fetch(
-          "https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/yourchatrooms/",
+          `${process.env.REACT_APP_DB}/yourchatrooms/`,
           headerStuff
         );
         const chatroomsList = await response.json();
@@ -53,7 +53,7 @@ export default function MyChatRooms() {
                 >
                   <div className={styles.chatRoomCardContent}>
                     <h2>{chatrooms.name}</h2>
-                    <span>{chatrooms.description.length > 115 ? chatrooms.description.substring(1,115) + "..." : chatrooms.description}</span>
+                    <span>{chatrooms.description.length > 115 ? chatrooms.description.substring(0,170) + "..." : chatrooms.description}</span>
                     <div className={styles.chatRoomCardContentCreator}>
                       <div className={styles.createrInfo}>
                         <span className={styles.createInfoSpan}>

@@ -30,7 +30,7 @@ function ChatRoom() {
 
 
   async function retrieveMessages() {
-    console.log('hi by kiye')
+    
     try {
       let header = {
         headers: {
@@ -38,7 +38,7 @@ function ChatRoom() {
         },
       };
       const response = await fetch(
-        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/gettingmessages/${slug}/`,
+        `${process.env.REACT_APP_DB}/gettingmessages/${slug}/`,
         header
       );
       const theResult = await response.json();
@@ -164,7 +164,6 @@ function ChatRoom() {
         await retrieveMessages();
       }
     }, 1200);
-    console.log('time is money bro!!!!!')
     if (messageListEndRef.current != false) {
       scrollToBottom();
     }
@@ -188,7 +187,7 @@ function ChatRoom() {
         body: messageInfo,
       };
       const response = await fetch(
-        `https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/createmessages/${slug}/`,
+        `${process.env.REACT_APP_DB}/createmessages/${slug}/`,
         header
       );
       const result = await response.json();

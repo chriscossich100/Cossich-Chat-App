@@ -23,7 +23,7 @@ function ChatRooms() {
           },
         };
         const response = await fetch(
-          "https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/gettingchatrooms/",
+          `${process.env.REACT_APP_DB}/gettingchatrooms/`,
           headerStuff
         );
         const chatroomsList = await response.json();

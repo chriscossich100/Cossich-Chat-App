@@ -73,7 +73,7 @@ function Authenticate() {
           body: loginInfo,
         };
 
-        const response = await fetch("https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/login/", tryLogin);
+        const response = await fetch(`${process.env.REACT_APP_DB}/login/`, tryLogin);
         const details = await response.json();
 
         //if no user was found with provided credentials, provide error message
@@ -200,7 +200,7 @@ function Authenticate() {
           body: formData,
         };
 
-        let response = await fetch("https://cossich-chat-backend-87ab3da14cd7.herokuapp.com/signup/", data);
+        let response = await fetch(`${process.env.REACT_APP_DB}/signup/`, data);
         let result = await response.json();
 
         if (!result.userFound) {

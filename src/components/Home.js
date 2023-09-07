@@ -19,7 +19,7 @@ export default function Home() {
               Empezar Seción
             </NavLink>
 
-            <NavLink className={styles.navLink} to="https://github.com/chriscossich100">
+            <NavLink className={styles.navLink} to="https://github.com/chriscossich100?tab=repositories">
               Ir al Git Repo
             </NavLink>
           </nav>
