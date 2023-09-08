@@ -180,6 +180,7 @@ function ChatRoom() {
   //function for sending a message through mobile site.
   async function sendMessageMobile(e) {
     e.preventDefault();
+    messageSenderMobile.current.focus();
     let formData = e.target;
     let messageInfo = new FormData();
 
@@ -216,7 +217,7 @@ function ChatRoom() {
 
     //reset the value of the message and also focus on the element so user doesn't have to reclick the message par
     messageSenderMobile.current.innerHTML = "";
-    messageSenderMobile.current.focus();
+   
 
     //only call the request if there are no messages. This is only called when the user sent the initial message
     if (messagesInTheChat.chatMessages.length <= 0) {
