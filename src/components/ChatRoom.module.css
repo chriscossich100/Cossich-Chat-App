@@ -78,11 +78,11 @@
   display: none;
   width: 100%;
   background-color: #f0f2f5;
-  padding: 10px;
+  padding: 5px 5px;
   position: relative;
   z-index: 500;
   order: 3;
-  min-height: 75px;
+  min-height: 45px;
   position: relative;
   align-items: center;
 }
@@ -321,7 +321,7 @@
     /* resize: both; */
     line-height: 20px;
     background-color: #fafafa;
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
     text-align: left;
     overflow-x: hidden;
