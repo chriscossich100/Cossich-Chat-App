@@ -2,25 +2,37 @@ import React from "react";
 import { NavLink, Outlet, Navigate } from "react-router-dom";
 import styles from "./Navigation.module.css";
 
+import { useTranslation } from "react-i18next";
+
 export default function Home() {
+  const { t, i18n } = useTranslation();
+
+  function onChangeLanguage() {
+    if (i18n.language == "es") {
+      i18n.changeLanguage("en");
+    } else {
+      i18n.changeLanguage("es");
+    }
+  }
 
   if (localStorage.getItem("auth-token")) {
-    console.log("come man do we event get here");
     return <Navigate to="/home/" />;
-  } 
-  else {
+  } else {
     return [
-      <div key={'home'} className={styles.navigationHome}>
+      <div key={"home"} className={styles.navigationHome}>
         <div
           className={[styles.homeNavContainer, styles.navContainer].join(" ")}
         >
           <nav className={[styles.navMenuHome, styles.wNavMenuHome].join(" ")}>
             <NavLink className={styles.navLink} to="/login/">
-              Empezar Seción
+              {t("navigation.Link1")}
             </NavLink>
 
-            <NavLink className={styles.navLink} to="https://github.com/chriscossich100?tab=repositories">
-              Ir al Git Repo
+            {/* <NavLink className={styles.navLink} to="https://github.com/chriscossich100?tab=repositories">
+             {t('navigation.Link2')}
+            </NavLink> */}
+            <NavLink className={styles.navLink} onClick={onChangeLanguage}>
+              {i18n.language == "es" ? "EN" : "ES"}
             </NavLink>
           </nav>
         </div>

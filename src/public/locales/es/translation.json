@@ -1,0 +1,40 @@
+{
+  "navigation": {
+    "Link1": "Empezar Seción",
+    "Link2": "Ir al Git Repo",
+    "Link3": "Cerrar Seción",
+    "Link4": "Cuartos De Chat",
+    "Link5": "Crear Nuevo Cuarto",
+    "Link6": "Tus Cuartos De Chat"
+  },
+  "authentication": {
+    "welcome": "Bienvenido",
+    "register": "Registrar",
+    "username": "Nombre De usario",
+    "password": "Contraseña",
+    "email": "Correo Electronico",
+    "login": "Iniciar Seción",
+    "signup": "Crear Cuenta",
+    "authMethodLogin": "Iniciar Seción",
+    "authMethodSignup": "Crear Cuenta",
+    "errorMessage1": "Por Favor, Proporcione Tu Información",
+    "errorMessage2": "No Podems Econtrar Una Cuenta Con Ese Nombre De Usario y Contraseña"
+  },
+  "chatRooms": {
+    "loadingChatRooms": "Cargando Cuartos De Chat",
+    "loadingYourChatRooms": "Cargando Tus Cuartos De Chat",
+    "noChatRooms": "Aún no hay cuartos",
+    "noYourChatRooms": "You havne't Created Any Chat Rooms Yet",
+    "createdBy": "Creado Por",
+    "chatRoomDefaultMessage": "Bienvenidos a este cuarto de chat. No se permite el acoso o mensajes que promueven la violencia. Si a caso se encuentran mensajes que van en contra estas reglas la cuenta a la que los mensajes pertenecen será prohibido."
+  },
+  "createChatRooms": {
+    "create": "Crear Cuarto De Chat",
+    "chatRoomName": "Nombre Del Cuarto",
+    "description": "Descripción",
+    "maxRequirements": "Letras",
+    "createTheRoom": "Crear Cuarto",
+    "errorMessage1": "Ya Existe Un Cuarto Con Ese Nombre",
+    "errorMessage2": "El Nombre De Cuarto y la Descripción no pueden estar vacíos"
+  }
+}

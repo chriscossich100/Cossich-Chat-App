@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ChatRooms.module.css";
+import {useTranslation} from 'react-i18next';
 
 export default function MyChatRooms() {
   const [myChatRoomList, setChatRoomList] = useState({
     chatRooms: [],
     loading: true,
   });
+
+  const { t, i18n } = useTranslation();
 
   let listOfChatrooms = [];
 
@@ -93,11 +96,11 @@ export default function MyChatRooms() {
     </div>
   ) : myChatRoomList.loading ? (
     <div className={styles.chatRoomsContainer}>
-      <h1 style={{ margin: "0px" }}>Cargando Cuartos De Chat</h1>
+      <h1 style={{ margin: "0px" }}>{t('chatRooms.loadingYourChatRooms')}</h1>
     </div>
   ) : (
     <div className={styles.chatRoomsContainer}>
-      <h1 style={{ margin: "0px" }}>Aún No Has Creado Un Cuarto De Chat!</h1>
+      <h1 style={{ margin: "0px" }}>{t('chatRooms.noYourChatRooms')}</h1>
     </div>
   );
 }

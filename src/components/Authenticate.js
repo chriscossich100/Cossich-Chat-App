@@ -1,9 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import classes from "./Authenticate.module.css";
+import {useTranslation} from 'react-i18next'
 
 //this is the component that will handle both the signup and login components:
 function Authenticate() {
+
+  const { t, i18n } = useTranslation();
+
   const [authDetails, setAuthDetails] = useState({
     isLogin: true,
     validated: true,
@@ -43,6 +47,8 @@ function Authenticate() {
     });
   }
 
+  
+
   //function to handle login:
   async function handleLogin(e) {
     e.preventDefault();
@@ -52,7 +58,7 @@ function Authenticate() {
       passwordReset.current.value == ""
     ) {
       setAuthDetails({
-        errorMessage: "Por favor, dinos tu información",
+        errorMessage: t('authentication.errorMessage1'),
         validated: false,
         isLogin: true,
         username: usernameReset.current.value,
@@ -81,7 +87,7 @@ function Authenticate() {
           setAuthDetails({
             validated: false,
             errorMessage:
-              "No podemos encontrar una cuenta con ese nombre de usario y contraseńa",
+              t('authentication.errorMessage2'),
             isLogin: true,
             username: usernameReset.current.value,
             email: "",
@@ -105,7 +111,7 @@ function Authenticate() {
     <main className={classes.mainWrapper}>
       <div className={classes.authenticateDiv}>
         <div className={classes.authenticateDivForm}>
-          <h2>Bienvenido</h2>
+          <h2>{t('authentication.welcome')}</h2>
           <div className={[classes.formBlock, classes.wForm].join(" ")}>
             <form id="loginForm" onSubmit={handleLogin}>
               {authDetails.validated == false ? (
@@ -118,7 +124,7 @@ function Authenticate() {
                     id="username"
                     className={classes.loginFormLabel}
                   >
-                    Nombre de usario
+                    {t('authentication.username')}
                   </label>
                   <input
                     className={[
@@ -139,7 +145,7 @@ function Authenticate() {
                   id="password"
                   className={classes.loginFormLabel}
                 >
-                  Contraseña
+                  {t('authentication.password')}
                 </label>
                 <input
                   className={[
@@ -158,10 +164,10 @@ function Authenticate() {
                 type="submit"
                 className={[classes.button, classes.wButton].join(" ")}
               >
-                Iniciar seción
+                {t('authentication.login')}
               </button>
             </form>
-            <span onClick={handleAuthMethod}> Crear Cuenta</span>
+            <span onClick={handleAuthMethod}> {t('authentication.authMethodSignup')}</span>
           </div>
         </div>
       </div>
@@ -178,7 +184,7 @@ function Authenticate() {
       emailReset.current.value == ""
     ) {
       setAuthDetails({
-        errorMessage: "Por favor, dinos tu información",
+        errorMessage: t('authentication.errorMessage1'),
         validated: false,
         isLogin: false,
         username: usernameReset.current.value,
@@ -209,7 +215,7 @@ function Authenticate() {
           //set state for credentials that are already in use:
           setAuthDetails({
             errorMessage:
-              "Encontramos una cuenta con ese nombre de usario o correo electronico",
+              t('authentication.errorMessage2'),
             validated: false,
             isLogin: false,
             username: usernameReset.current.value,
@@ -228,7 +234,7 @@ function Authenticate() {
     <main className={classes.mainWrapper}>
       <div className={classes.authenticateDiv}>
         <div className={classes.authenticateDivForm}>
-          <h2>Registrar</h2>
+          <h2>{t('authentication.register')}</h2>
           <div className={[classes.formBlock, classes.wForm].join(" ")}>
             <form id="signupForm" onSubmit={handleSignup}>
               {authDetails.validated == false ? (
@@ -241,7 +247,7 @@ function Authenticate() {
                     id="username"
                     className={classes.loginFormLabel}
                   >
-                    Nombre de usario
+                    {t('authentication.username')}
                   </label>
                   <input
                     className={[
@@ -262,7 +268,7 @@ function Authenticate() {
                   id="email"
                   className={classes.loginFormLabel}
                 >
-                  Correo Electronico
+                  {t('authentication.email')}
                 </label>
                 <input
                   className={[
@@ -283,7 +289,7 @@ function Authenticate() {
                   id="password"
                   className={classes.loginFormLabel}
                 >
-                  Contraseña
+                  {t('authentication.password')}
                 </label>
                 <input
                   className={[
@@ -302,10 +308,10 @@ function Authenticate() {
                 type="submit"
                 className={[classes.button, classes.wButton].join(" ")}
               >
-                crear cuenta
+                {t('authentication.signup')}
               </button>
             </form>
-            <span onClick={handleAuthMethod}> Iniciar Seción </span>
+            <span onClick={handleAuthMethod}> {t('authentication.authMethodLogin')}</span>
           </div>
         </div>
       </div>

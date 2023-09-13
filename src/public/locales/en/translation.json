@@ -1,0 +1,41 @@
+{
+  "navigation": {
+    "Link1": "Login",
+    "Link2": "Go to the Git Repository",
+    "Link3": "Log Out",
+    "Link4": "Chat Rooms",
+    "Link5": "Create New Chat Room",
+    "Link6": "Your Chat Rooms"
+  },
+  "authentication": {
+    "welcome": "Welcome",
+    "register": "Register",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "login": "Login",
+    "signup": "Sign Up",
+    "authMethodLogin": "Login",
+    "authMethodSignup": "Sign Up",
+    "errorMessage1": "Please Provide Your Credentials",
+    "errorMessage2": "We Couldn't Find An Account With That Username and Password"
+  },
+  "chatRooms": {
+    "loadingChatRooms": "Loading Chat Rooms",
+    "loadingYourChatRooms": "Loading Your Chat Rooms",
+    "noChatRooms": "There Are No Chat Rooms Available",
+    "noYourChatRooms": "You havne't Created Any Chat Rooms Yet",
+    "createdBy": "Created By",
+    "chatRoomDefaultMessage": "Welcome to this group chat. Messsages that promote violence or harrassment are not allowed. If there are messages that go against these very simple rules, the account that sent those messages will be banned."
+    
+  },
+  "createChatRooms": {
+    "create": "Create Chat Room",
+    "chatRoomName": "Chat Room Name",
+    "description": "Description",
+    "maxRequirements": "Letters",
+    "createTheRoom": "Create Room",
+    "errorMessage1": "A Chat Room Already Exists With That Name",
+    "errorMessage2": "The Name and Description Can't be empty"
+  }
+}

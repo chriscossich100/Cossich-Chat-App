@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./Authenticate.module.css"; //importing the form class from authenticate to use on the create chat form
+import {useTranslation} from 'react-i18next';
 
 function CreateChatRoom() {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ function CreateChatRoom() {
     validated: true,
     errorMessage: "",
   });
+
+  const { t, i18n } = useTranslation();
 
   let chatRoomName = useRef(null);
   let chatRoomDescription = useRef(null);
@@ -21,7 +24,7 @@ function CreateChatRoom() {
       validateCreateRoom({
         validated: false,
         errorMessage:
-          "El nombre del cuarto y la descripción no pueden estar vacíos",
+         t('createChatRooms.errorMessage1'),
       });
     } 
     else {
@@ -60,7 +63,7 @@ function CreateChatRoom() {
         if (chatroomResult.createdRoomFound) {
           validateCreateRoom({
             validated: false,
-            errorMessage: 'Ya existe un cuarto de chat con el mismo nombre! Por favor, elige otro nombre'
+            errorMessage: t('createChatRooms.errorMessage2')
           })
         }
         
@@ -79,7 +82,7 @@ function CreateChatRoom() {
     <main className={classes.mainWrapper}>
       <div className={classes.authenticateDiv}>
         <div className={classes.authenticateDivForm}>
-          <h2 style={{ fontSize: "25px" }}>Crear Cuarto de Chat</h2>
+          <h2 style={{ fontSize: "25px" }}>{t('createChatRooms.create')}</h2>
           <div className={[classes.formBlock, classes.wForm].join(" ")}>
             <form onSubmit={handleSubmiter}>
             {createRoomValidations.validated == false ? (
@@ -92,7 +95,7 @@ function CreateChatRoom() {
                     id="chatroom"
                     className={classes.loginFormLabel}
                   >
-                    Nombre del cuarto
+                    {t('createChatRooms.chatRoomName')}
                   </label>
                   <input
                     className={[
@@ -104,7 +107,7 @@ function CreateChatRoom() {
                     ref={chatRoomName}
                   ></input>
                   <p className={classes.textAreaContentFormLabelWordLimit}>
-                    Max. 100 Letras
+                    Max. 100 {t('createChatRooms.maxRequirements')}
                   </p>
                 </div>
               </div>
@@ -114,7 +117,7 @@ function CreateChatRoom() {
                   id="description"
                   className={classes.loginFormLabel}
                 >
-                  descripción
+                  {t('createChatRooms.description')}
                 </label>
                 <input
                   className={[
@@ -126,14 +129,14 @@ function CreateChatRoom() {
                   ref={chatRoomDescription}
                 ></input>
                 <p className={classes.textAreaContentFormLabelWordLimit}>
-                  Max. 350 Letras
+                  Max. 350 {t('createChatRooms.maxRequirements')}
                 </p>
               </div>
               <button
                 type="submit"
                 className={[classes.button, classes.wButton].join(" ")}
               >
-                Crear cuarto
+                {t('createChatRooms.createTheRoom')}
               </button>
             </form>
           </div>

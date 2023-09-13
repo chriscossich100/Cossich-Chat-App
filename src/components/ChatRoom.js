@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ChatRoom.module.css";
+import {useTranslation} from 'react-i18next'
 
 //this is the component that will get the current chat room and load the messages found in this chat room:
 function ChatRoom() {
   //set the specific slug from the params using useParams:
   const { slug } = useParams();
+
+  const { t, i18n } = useTranslation();
 
   //set state to load all the messages in the chat room and a loading state while the messages load.
   const [messagesInTheChat, getMessages] = useState({
@@ -331,11 +334,7 @@ function ChatRoom() {
                             >
                               <div className={styles.chatStructure}>
                                 <span className={styles.chatStructureSpan}>
-                                  Bienvenidos a este cuarto de chat. No se
-                                  permite el acoso o mensajes que promueven la
-                                  violencia. Si a caso se encuentran mensajes
-                                  que van en contra estas reglas la cuenta a la
-                                  que los mensajes pertenecen será prohibido.
+                                  {t('chatRooms.chatRoomDefaultMessage')}
                                 </span>
                               </div>
                             </div>
@@ -353,7 +352,7 @@ function ChatRoom() {
           <form className={styles.chatMainForm}>
             <div className={styles.chatMainFormContainerInputContainer}>
               <span
-                className={styles.chatMainFormContainerInputContainerContainer}
+                className={[styles.chatMainFormContainerInputContainerContainer, i18n.language == 'es' ? styles.espSendMessage : styles.engSendMessage ].join(' ')}
                 role="textbox"
                 contentEditable
                 ref={messageSender}
@@ -368,7 +367,7 @@ function ChatRoom() {
           >
             <div className={styles.chatMainFormContainerInputContainer}>
               <span
-                className={styles.chatMainFormContainerInputContainerContainer}
+                className={[styles.chatMainFormContainerInputContainerContainer, i18n.language == 'es' ? styles.espSendMessage : styles.engSendMessage].join(' ')}
                 role="textbox"
                 contentEditable
                 ref={messageSenderMobile}

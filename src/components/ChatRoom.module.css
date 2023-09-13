@@ -135,8 +135,13 @@
   width: 100%;
 }
 
-.chatMainFormContainerInputContainerContainer[contenteditable]:empty::before {
-  content: "Enviar Mensaje";
+.chatMainFormContainerInputContainerContainer.engSendMessage[contenteditable]:empty::before{
+  content: 'Send Message';
+  color: gray;
+}
+
+.chatMainFormContainerInputContainerContainer.espSendMessage[contenteditable]:empty::before{
+  content: 'Enviar Mensaje';
   color: gray;
 }
 
