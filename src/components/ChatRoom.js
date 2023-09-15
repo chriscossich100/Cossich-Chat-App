@@ -85,9 +85,9 @@ function ChatRoom() {
           //initialize array. This array will contain text from temp as well as a tags.
           let messagesArray = []
           for (let index = 0; index < x.message.length; index++) {
-            if (x.message[index] != " " && /\r|\n/.exec(x.message[index]) == null) {
+            if (x.message[index] != " " && /\r|\n/.exec(x.message[index]) == null && x.message[index] != String.fromCharCode(160)) {
               temp += x.message[index];
-
+              
               //if the link is the last word in the string run the code to check:
               if (index == x.message.length - 1) {
                 if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1 || temp.indexOf('https://') != -1) {
