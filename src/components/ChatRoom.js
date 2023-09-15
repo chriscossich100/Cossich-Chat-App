@@ -90,7 +90,7 @@ function ChatRoom() {
 
               //if the link is the last word in the string run the code to check:
               if (index == x.message.length - 1) {
-                if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1) {
+                if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1 || temp.indexOf('https://') != -1) {
                   //in case www. is found and not any http, add https to string: 
                   if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
                     temp = 'https://' + temp
@@ -110,7 +110,7 @@ function ChatRoom() {
                   temp += '\n'
                 }
               }
-              if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1) {
+              if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1 || temp.indexOf('https://') != -1) {
 
                 if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
                   temp = 'https://' + temp
