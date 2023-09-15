@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { createElement, useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ChatRoom.module.css";
-import {useTranslation} from 'react-i18next'
+import { useTranslation } from "react-i18next";
 
 //this is the component that will get the current chat room and load the messages found in this chat room:
 function ChatRoom() {
@@ -47,7 +47,11 @@ function ChatRoom() {
         return i;
       });
 
-      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+      let finalizedUnicode = unicode
+        .join("")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
       const response = await fetch(
         `${process.env.REACT_APP_DB}/gettingmessages/${finalizedUnicode}/`,
         header
@@ -59,7 +63,6 @@ function ChatRoom() {
         navigate("/home/chatrooms");
       } else {
         let lastOne = false;
-
         if (
           theResult.MessagesInChatRoom.length >
           messagesInTheChat.chatMessages.length
@@ -75,6 +78,58 @@ function ChatRoom() {
           if (!theResult.MessagesInChatRoom[x + 1]) {
             lastOne = true;
           }
+
+         
+          //create a empty string that will be placed into an array.
+          let temp = "";
+          //initialize array. This array will contain text from temp as well as a tags.
+          let messagesArray = []
+          for (let index = 0; index < x.message.length; index++) {
+            if (x.message[index] != " " && /\r|\n/.exec(x.message[index]) == null) {
+              temp += x.message[index];
+
+              //if the link is the last word in the string run the code to check:
+              if (index == x.message.length - 1) {
+                if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1) {
+                  //in case www. is found and not any http, add https to string: 
+                  if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
+                    temp = 'https://' + temp
+                  }
+                  messagesArray.push(<a target="_blank" href = {temp}>{temp}</a>)
+              }
+              else{
+                messagesArray.push(temp)
+              }
+              }
+            } else{
+              if (/\r|\n/.exec(x.message[index]) != null) {
+                if (/\r|\n/.exec(x.message[index])['input'] == "\r") {
+                  // temp += '\r'
+                }
+                else {
+                  temp += '\n'
+                }
+              }
+              if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1) {
+
+                if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
+                  temp = 'https://' + temp
+                }
+                messagesArray.push(<a target="_blank" href = {temp}>{temp} </a>)
+              }
+              else{
+                if (temp == "\n") {
+                  messagesArray.push(temp)
+                }
+                else{
+                 messagesArray.push(temp + " ");
+                }
+              }
+              temp = "";
+            }
+          }
+
+          
 
           return (
             <div
@@ -102,7 +157,7 @@ function ChatRoom() {
                     >
                       <div className={styles.chatStructure}>
                         <div className={styles.chatStructureSpan}>
-                          {x.message}
+                          <p>{messagesArray}</p>
                         </div>
                       </div>
                       <div
@@ -196,7 +251,11 @@ function ChatRoom() {
       return i;
     });
 
-    let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+    let finalizedUnicode = unicode
+      .join("")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
 
     messageInfo.append("message", messageSenderMobile.current.innerText);
     messageInfo.append("author", localStorage.getItem("auth-token"));
@@ -220,7 +279,6 @@ function ChatRoom() {
 
     //reset the value of the message and also focus on the element so user doesn't have to reclick the message par
     messageSenderMobile.current.innerHTML = "";
-   
 
     //only call the request if there are no messages. This is only called when the user sent the initial message
     if (messagesInTheChat.chatMessages.length <= 0) {
@@ -248,9 +306,13 @@ function ChatRoom() {
         return i;
       });
 
-      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
-      
-      messageInfo.append("message", messageSender.current.innerText);
+      let finalizedUnicode = unicode
+        .join("")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
+
+      messageInfo.append("message", "" + messageSender.current.innerText);
       messageInfo.append("author", localStorage.getItem("auth-token"));
 
       try {
@@ -334,7 +396,7 @@ function ChatRoom() {
                             >
                               <div className={styles.chatStructure}>
                                 <span className={styles.chatStructureSpan}>
-                                  {t('chatRooms.chatRoomDefaultMessage')}
+                                  {t("chatRooms.chatRoomDefaultMessage")}
                                 </span>
                               </div>
                             </div>
@@ -352,7 +414,12 @@ function ChatRoom() {
           <form className={styles.chatMainForm}>
             <div className={styles.chatMainFormContainerInputContainer}>
               <span
-                className={[styles.chatMainFormContainerInputContainerContainer, i18n.language == 'es' ? styles.espSendMessage : styles.engSendMessage ].join(' ')}
+                className={[
+                  styles.chatMainFormContainerInputContainerContainer,
+                  i18n.language == "es"
+                    ? styles.espSendMessage
+                    : styles.engSendMessage,
+                ].join(" ")}
                 role="textbox"
                 contentEditable
                 ref={messageSender}
@@ -367,7 +434,12 @@ function ChatRoom() {
           >
             <div className={styles.chatMainFormContainerInputContainer}>
               <span
-                className={[styles.chatMainFormContainerInputContainerContainer, i18n.language == 'es' ? styles.espSendMessage : styles.engSendMessage].join(' ')}
+                className={[
+                  styles.chatMainFormContainerInputContainerContainer,
+                  i18n.language == "es"
+                    ? styles.espSendMessage
+                    : styles.engSendMessage,
+                ].join(" ")}
                 role="textbox"
                 contentEditable
                 ref={messageSenderMobile}

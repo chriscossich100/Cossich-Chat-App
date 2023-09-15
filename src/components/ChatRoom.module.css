@@ -247,6 +247,15 @@
   overflow: wrap;
   white-space: pre-wrap;
 }
+
+.chatStructureSpan p {
+  margin: 0;
+}
+.chatStructureSpan a{
+  text-decoration: none;
+  color: blue;
+}
+
 .chatStructureSpan2 {
   overflow: wrap;
   white-space: pre-wrap;
