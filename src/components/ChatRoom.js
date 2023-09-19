@@ -22,10 +22,15 @@ function ChatRoom() {
   let messageSenderMobile = useRef(null);
 
   function scrollToBottom() {
-    if (messageListEndRef.current != false) {
+    if (messageListEndRef.current != false && messageListEndRef.current != true) {
+
+      console.log('hey this is the messageListEnRef', messageListEndRef.current)
+
       return messageListEndRef.current.scrollIntoView();
     }
   }
+
+  console.log('after the state has been set it is: ', messagesInTheChat.chatMessages)
 
   let messages = [];
   const navigate = useNavigate();
@@ -67,6 +72,8 @@ function ChatRoom() {
           theResult.MessagesInChatRoom.length >
           messagesInTheChat.chatMessages.length
         ) {
+          console.log('the messages in the chat length was: ', messagesInTheChat.chatMessages.length , 'and the result from the fetch request was: ', theResult.MessagesInChatRoom.length)
+          console.log('checking things out here and it seems like ther request that came in has a bigger last than before.')
           messageListEndRef.current = true;
         } else {
           messageListEndRef.current = false;
@@ -228,7 +235,7 @@ function ChatRoom() {
       if (messagesInTheChat.chatMessages.length != 0) {
         await retrieveMessages();
       }
-    }, 1200);
+    }, 2000);
     if (messageListEndRef.current != false) {
       scrollToBottom();
     }
