@@ -235,7 +235,7 @@ function ChatRoom() {
       if (messagesInTheChat.chatMessages.length != 0) {
         await retrieveMessages();
       }
-    }, 2000);
+    }, 1200);
     if (messageListEndRef.current != false) {
       scrollToBottom();
     }
