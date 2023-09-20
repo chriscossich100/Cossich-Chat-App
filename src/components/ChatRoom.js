@@ -24,23 +24,20 @@ function ChatRoom() {
   let messageSenderMobile = useRef(null);
   let scrollButton = useRef(null);
 
-  // function scrollToBottom() {
-  //   console.log("hey do we get here at all?");
-  //   if (
-  //     messageListEndRef.current != false &&
-  //     messageListEndRef.current != true
-  //   ) {
-  //     console.log(
-  //       "hey this is the messageListEnRef",
-  //       messageListEndRef.current
-  //     );
+  function scrollToBottom() {
+    if (
+      messageListEndRef.current != false &&
+      messageListEndRef.current != true
+    ) {
 
-  //     return messageListEndRef.current.scrollIntoView();
-  //   }
-  // }
+      return messageListEndRef.current.scrollIntoView();
+    }
+  }
 
   function scrollToBottom2() {
-
+    if (scrollButton.current.style.backgroundColor == '#d9fdd3') {
+      scrollButton.current.style.backgroundColor = 'white';
+    }
     return messagelisterEnd.current.scrollIntoView();
   }
 
@@ -266,6 +263,12 @@ function ChatRoom() {
       }
     }, 1200);
 
+    if (scrollButton.current.style.display == 'block') {
+      if (messageListEndRef.current != false) {
+        scrollButton.current.style.backgroundColor = '#d9fdd3';
+      }
+    }
+
     let scrollDiv = document.querySelector(".scroll-window");
 
     if (
@@ -276,36 +279,37 @@ function ChatRoom() {
       scrollToBottom2();
     }
 
-    if (messageListEndRef.current.offsetHeight != null) {
-      if (
-        scrollDiv.scrollTop ==
-        scrollDiv.scrollHeight -
-          scrollDiv.offsetHeight -
-          (messageListEndRef.current.offsetHeight + 12)
-      ) {
-        scrollToBottom2();
+    if (scrollButton.current.style.display == 'none' && scrollDiv.scrollTop != 0) {
+      // if (
+      //   scrollDiv.scrollTop == scrollDiv.scrollHeight - scrollDiv.offsetHeight - (messageListEndRef.current.offsetHeight + 12)
+      // ) {
+      //   scrollToBottom();
+      // }
+      if (messageListEndRef.current != false ) {
+        scrollToBottom();
       }
+      
     }
-
-    // if (messageListEndRef.current != false ) {
-    //   scrollToBottom();
-    // }
 
     return () => clearInterval(interval);
   }, [messagesInTheChat.chatMessages]);
+
 
   function scrollme(e) {
     let scrollDiv = document.querySelector(".scroll-window");
     if (scrollDiv.scrollTop < scrollDiv.scrollHeight - scrollDiv.offsetHeight) {
       scrollButton.current.style.display = "block";
+      
     } else {
       scrollButton.current.style.display = "none";
+      scrollButton.current.style.backgroundColor = 'white';
     }
   }
 
   //function for sending a message through mobile site.
   async function sendMessageMobile(e) {
     e.preventDefault();
+    
     messageSenderMobile.current.focus();
     let formData = e.target;
     let messageInfo = new FormData();
@@ -327,7 +331,8 @@ function ChatRoom() {
 
     messageInfo.append("message", messageSenderMobile.current.innerText);
     messageInfo.append("author", localStorage.getItem("auth-token"));
-
+    //reset the value of the message and also focus on the element so user doesn't have to reclick the message par
+    messageSenderMobile.current.innerHTML = "";
     try {
       let header = {
         method: "POST",
@@ -345,8 +350,7 @@ function ChatRoom() {
       console.error(err);
     }
 
-    //reset the value of the message and also focus on the element so user doesn't have to reclick the message par
-    messageSenderMobile.current.innerHTML = "";
+    
 
     //only call the request if there are no messages. This is only called when the user sent the initial message
     if (messagesInTheChat.chatMessages.length <= 0) {
@@ -382,7 +386,7 @@ function ChatRoom() {
 
       messageInfo.append("message", "" + messageSender.current.innerText);
       messageInfo.append("author", localStorage.getItem("auth-token"));
-
+      messageSender.current.innerHTML = "";
       try {
         let header = {
           method: "POST",
@@ -399,7 +403,7 @@ function ChatRoom() {
       } catch (err) {
         console.error(err);
       }
-      messageSender.current.innerHTML = "";
+      
 
       //only call the request if there are no messages. This is only called when the user sent the initial message
       if (messagesInTheChat.chatMessages.length <= 0) {
