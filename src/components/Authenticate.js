@@ -215,7 +215,7 @@ function Authenticate() {
           //set state for credentials that are already in use:
           setAuthDetails({
             errorMessage:
-              t('authentication.errorMessage2'),
+              t('authentication.errorMessage3'),
             validated: false,
             isLogin: false,
             username: usernameReset.current.value,

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ChatRoom.module.css";
 import { useTranslation } from "react-i18next";
 
+
 //this is the component that will get the current chat room and load the messages found in this chat room:
 function ChatRoom() {
   //set the specific slug from the params using useParams:
@@ -18,19 +19,30 @@ function ChatRoom() {
   });
 
   let messageListEndRef = useRef(false);
+  let messagelisterEnd = useRef(true);
   let messageSender = useRef(null);
   let messageSenderMobile = useRef(null);
+  let scrollButton = useRef(null);
 
-  function scrollToBottom() {
-    if (messageListEndRef.current != false && messageListEndRef.current != true) {
+  // function scrollToBottom() {
+  //   console.log("hey do we get here at all?");
+  //   if (
+  //     messageListEndRef.current != false &&
+  //     messageListEndRef.current != true
+  //   ) {
+  //     console.log(
+  //       "hey this is the messageListEnRef",
+  //       messageListEndRef.current
+  //     );
 
-      console.log('hey this is the messageListEnRef', messageListEndRef.current)
+  //     return messageListEndRef.current.scrollIntoView();
+  //   }
+  // }
 
-      return messageListEndRef.current.scrollIntoView();
-    }
+  function scrollToBottom2() {
+
+    return messagelisterEnd.current.scrollIntoView();
   }
-
-  console.log('after the state has been set it is: ', messagesInTheChat.chatMessages)
 
   let messages = [];
   const navigate = useNavigate();
@@ -72,8 +84,7 @@ function ChatRoom() {
           theResult.MessagesInChatRoom.length >
           messagesInTheChat.chatMessages.length
         ) {
-          console.log('the messages in the chat length was: ', messagesInTheChat.chatMessages.length , 'and the result from the fetch request was: ', theResult.MessagesInChatRoom.length)
-          console.log('checking things out here and it seems like ther request that came in has a bigger last than before.')
+         
           messageListEndRef.current = true;
         } else {
           messageListEndRef.current = false;
@@ -86,57 +97,75 @@ function ChatRoom() {
             lastOne = true;
           }
 
-         
           //create a empty string that will be placed into an array.
           let temp = "";
           //initialize array. This array will contain text from temp as well as a tags.
-          let messagesArray = []
+          let messagesArray = [];
           for (let index = 0; index < x.message.length; index++) {
-            if (x.message[index] != " " && /\r|\n/.exec(x.message[index]) == null && x.message[index] != String.fromCharCode(160)) {
+            if (
+              x.message[index] != " " &&
+              /\r|\n/.exec(x.message[index]) == null &&
+              x.message[index] != String.fromCharCode(160)
+            ) {
               temp += x.message[index];
-              
+
               //if the link is the last word in the string run the code to check:
               if (index == x.message.length - 1) {
-                if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1 || temp.indexOf('https://') != -1) {
-                  //in case www. is found and not any http, add https to string: 
-                  if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
-                    temp = 'https://' + temp
+                if (
+                  temp.indexOf("http://") != -1 ||
+                  temp.indexOf("www.") != -1 ||
+                  temp.indexOf("https://") != -1
+                ) {
+                  //in case www. is found and not any http, add https to string:
+                  if (
+                    temp.indexOf("http://") == -1 &&
+                    temp.indexOf("https://") == -1
+                  ) {
+                    temp = "https://" + temp;
                   }
-                  messagesArray.push(<a target="_blank" href = {temp}>{temp}</a>)
+                  messagesArray.push(
+                    <a target="_blank" href={temp}>
+                      {temp}
+                    </a>
+                  );
+                } else {
+                  messagesArray.push(temp);
+                }
               }
-              else{
-                messagesArray.push(temp)
-              }
-              }
-            } else{
+            } else {
               if (/\r|\n/.exec(x.message[index]) != null) {
-                if (/\r|\n/.exec(x.message[index])['input'] == "\r") {
+                if (/\r|\n/.exec(x.message[index])["input"] == "\r") {
                   // temp += '\r'
-                }
-                else {
-                  temp += '\n'
+                } else {
+                  temp += "\n";
                 }
               }
-              if (temp.indexOf('http://') != -1 || temp.indexOf('www.') != -1 || temp.indexOf('https://') != -1) {
-
-                if (temp.indexOf('http://') == -1 && temp.indexOf('https://') == -1) {
-                  temp = 'https://' + temp
+              if (
+                temp.indexOf("http://") != -1 ||
+                temp.indexOf("www.") != -1 ||
+                temp.indexOf("https://") != -1
+              ) {
+                if (
+                  temp.indexOf("http://") == -1 &&
+                  temp.indexOf("https://") == -1
+                ) {
+                  temp = "https://" + temp;
                 }
-                messagesArray.push(<a target="_blank" href = {temp}>{temp} </a>)
-              }
-              else{
+                messagesArray.push(
+                  <a target="_blank" href={temp}>
+                    {temp}{" "}
+                  </a>
+                );
+              } else {
                 if (temp == "\n") {
-                  messagesArray.push(temp)
-                }
-                else{
-                 messagesArray.push(temp + " ");
+                  messagesArray.push(temp);
+                } else {
+                  messagesArray.push(temp + " ");
                 }
               }
               temp = "";
             }
           }
-
-          
 
           return (
             <div
@@ -236,11 +265,43 @@ function ChatRoom() {
         await retrieveMessages();
       }
     }, 1200);
-    if (messageListEndRef.current != false) {
-      scrollToBottom();
+
+    let scrollDiv = document.querySelector(".scroll-window");
+
+    if (
+      scrollDiv.scrollTop == 0 &&
+      (scrollButton.current.style.display == "" ||
+        scrollButton.current.style.display == "none")
+    ) {
+      scrollToBottom2();
     }
+
+    if (messageListEndRef.current.offsetHeight != null) {
+      if (
+        scrollDiv.scrollTop ==
+        scrollDiv.scrollHeight -
+          scrollDiv.offsetHeight -
+          (messageListEndRef.current.offsetHeight + 12)
+      ) {
+        scrollToBottom2();
+      }
+    }
+
+    // if (messageListEndRef.current != false ) {
+    //   scrollToBottom();
+    // }
+
     return () => clearInterval(interval);
   }, [messagesInTheChat.chatMessages]);
+
+  function scrollme(e) {
+    let scrollDiv = document.querySelector(".scroll-window");
+    if (scrollDiv.scrollTop < scrollDiv.scrollHeight - scrollDiv.offsetHeight) {
+      scrollButton.current.style.display = "block";
+    } else {
+      scrollButton.current.style.display = "none";
+    }
+  }
 
   //function for sending a message through mobile site.
   async function sendMessageMobile(e) {
@@ -377,7 +438,13 @@ function ChatRoom() {
           ></div>
           <main className={styles.chatMainWrapper}>
             <div style={{ visibility: "visible" }}>
-              <div className={styles.chatMainWrapperContent}>
+              <div
+                className={[
+                  styles.chatMainWrapperContent,
+                  "scroll-window",
+                ].join(" ")}
+                onScroll={scrollme}
+              >
                 <div style={{ flex: "1 1 auto", minHeight: "12px" }}></div>
                 <div className={styles.chatMainDiv}>
                   <div style={{ width: "100%" }}>
@@ -414,6 +481,21 @@ function ChatRoom() {
                     </div>
                     {messagesInTheChat.chatMessages}
                   </div>
+                  <div
+                    className={[styles.scrollToBottom, "scrollButton"].join(
+                      " "
+                    )}
+                    
+                    ref={scrollButton}
+                    onClick={scrollToBottom2}
+                  >
+                    <span
+                      className={[styles.scrollToIcon, "icon-arrow-down"].join(
+                        " "
+                      )}
+                    ></span>
+                  </div>
+                  <div ref={messagelisterEnd}></div>
                 </div>
               </div>
             </div>

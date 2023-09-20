@@ -18,7 +18,8 @@
     "authMethodLogin": "Iniciar Seción",
     "authMethodSignup": "Crear Cuenta",
     "errorMessage1": "Por Favor, Proporcione Tu Información",
-    "errorMessage2": "No Podems Econtrar Una Cuenta Con Ese Nombre De Usario y Contraseña"
+    "errorMessage2": "No Podems Econtrar Una Cuenta Con Ese Nombre De Usario y Contraseña",
+    "errorMessage3": "Ya Existe Una Cuenta Con Ese Nombre De Usario o Correo Electronico"
   },
   "chatRooms": {
     "loadingChatRooms": "Cargando Cuartos De Chat",

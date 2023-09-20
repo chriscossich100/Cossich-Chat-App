@@ -61,6 +61,32 @@
   /* overflow: scroll; */
 }
 
+
+
+.scrollToBottom {
+  display: none;
+  background-color: white;
+  position: fixed;
+  bottom: 150px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  z-index: 200;
+}
+
+
+.scrollToIcon {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  font-size: 15px;
+}
+
+.scrollToIcon::before {
+  content: "\e902";
+}
+
 .chatMainForm {
   width: 100%;
   background-color: #f0f2f5;
@@ -287,6 +313,10 @@
 @media (max-width: 800px) {
   .chatMainDiv {
     margin-top: 90px;
+  }
+
+  .scrollToBottom {
+    bottom: 100px;
   }
 
   .chatMessagesContainerMessage,

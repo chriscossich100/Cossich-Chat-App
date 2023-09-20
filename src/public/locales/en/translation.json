@@ -18,7 +18,8 @@
     "authMethodLogin": "Login",
     "authMethodSignup": "Sign Up",
     "errorMessage1": "Please Provide Your Credentials",
-    "errorMessage2": "We Couldn't Find An Account With That Username and Password"
+    "errorMessage2": "We Couldn't Find An Account With That Username and Password",
+    "errorMessage3": "An Account With That Username and or Email Already Exists"
   },
   "chatRooms": {
     "loadingChatRooms": "Loading Chat Rooms",
