@@ -35,7 +35,7 @@ function ChatRoom() {
   }
 
   function scrollToBottom2() {
-    if (scrollButton.current.style.backgroundColor == '#d9fdd3') {
+    if (scrollButton.current.style.backgroundColor == '#09ff09') {
       scrollButton.current.style.backgroundColor = 'white';
     }
     return messagelisterEnd.current.scrollIntoView();
@@ -226,6 +226,7 @@ function ChatRoom() {
                             {xTime.toLocaleTimeString([], {
                               hour: "numeric",
                               minute: "2-digit",
+                              hour12: true
                             })}
                           </span>
                         </div>
@@ -263,10 +264,10 @@ function ChatRoom() {
       }
     }, 1200);
 
-    if (scrollButton.current.style.display == 'block') {
-      if (messageListEndRef.current != false) {
-        scrollButton.current.style.backgroundColor = '#d9fdd3';
-      }
+    if (scrollButton.current.style.display == 'block' && messageListEndRef.current != false) {
+      
+        scrollButton.current.style.backgroundColor = '#09ff09';
+      
     }
 
     let scrollDiv = document.querySelector(".scroll-window");
