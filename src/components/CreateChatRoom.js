@@ -39,8 +39,14 @@ function CreateChatRoom() {
         return i;
       });
       //convert the url to complete unicode incase there are special characters like tildes, accents, or emojis.
-      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
+      let finalizedUnicode = unicode.join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '-');
       chatRoomFormData.append("name", form["chatroom"].value);
+      
+      //in case the last string is a white space, remove it:
+      if (finalizedUnicode.charAt(finalizedUnicode.length - 1) == ' ') {
+        finalizedUnicode = finalizedUnicode.slice(0, -1);
+        
+      }
       chatRoomFormData.append('nameslug', finalizedUnicode.replace(/\s/g, '-')) //replace any white space with '-'
       chatRoomFormData.append("description", form["description"].value);
 

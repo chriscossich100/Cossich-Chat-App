@@ -65,7 +65,7 @@ function ChatRoom() {
         .join("")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
+        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "-");
       const response = await fetch(
         `${process.env.REACT_APP_DB}/gettingmessages/${finalizedUnicode}/`,
         header
@@ -328,7 +328,7 @@ function ChatRoom() {
       .join("")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
+      .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "-");
 
     messageInfo.append("message", messageSenderMobile.current.innerText);
     messageInfo.append("author", localStorage.getItem("auth-token"));
@@ -383,7 +383,7 @@ function ChatRoom() {
         .join("")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "_");
+        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "-");
 
       messageInfo.append("message", "" + messageSender.current.innerText);
       messageInfo.append("author", localStorage.getItem("auth-token"));

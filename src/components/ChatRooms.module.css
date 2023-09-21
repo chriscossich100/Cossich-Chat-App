@@ -9,6 +9,13 @@
     align-items: center;
 }
 
+.welcomeUser {
+    font-size: 36px;
+    margin-bottom: 0px;
+}
+
+
+
 .chatRoomsContainer h1 {
     text-shadow: 1px 1px 2px black;
     letter-spacing: 2px;
@@ -32,7 +39,7 @@
   flex-wrap: wrap;
   padding-left: 15px;
   padding-right: 15px;
-  padding-top: 40px;
+  padding-top: 25px;
   text-align: left;
 }
 
@@ -128,8 +135,14 @@
         flex-direction: column;
         padding-left:40px;
         padding-right:40px;
-        padding-top: 40px;
+        padding-top: 30px;
       }
+
+      .welcomeUser {
+        font-size: 18px;
+        margin-top: 30px;;
+    }
+    
 
       .chatRoomsMainSingleRoom {
        

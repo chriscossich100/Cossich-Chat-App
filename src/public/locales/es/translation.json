@@ -25,9 +25,10 @@
     "loadingChatRooms": "Cargando Cuartos De Chat",
     "loadingYourChatRooms": "Cargando Tus Cuartos De Chat",
     "noChatRooms": "Aún no hay cuartos",
-    "noYourChatRooms": "You havne't Created Any Chat Rooms Yet",
+    "noYourChatRooms": "No Has Creado Ningun Cuarto",
     "createdBy": "Creado Por",
-    "chatRoomDefaultMessage": "Bienvenidos a este cuarto de chat. No se permite el acoso o mensajes que promueven la violencia. Si a caso se encuentran mensajes que van en contra estas reglas la cuenta a la que los mensajes pertenecen será prohibido."
+    "chatRoomDefaultMessage": "Bienvenidos a este cuarto de chat. No se permite el acoso o mensajes que promueven la violencia. Si a caso se encuentran mensajes que van en contra estas reglas la cuenta a la que los mensajes pertenecen será prohibido.",
+    "welcome": "Bienvenido! "
   },
   "createChatRooms": {
     "create": "Crear Cuarto De Chat",

@@ -7,6 +7,7 @@ function ChatRooms() {
   const [chatRooms, getChatRooms] = useState({
     chatRooms: [],
     loading: true,
+    userLogedIn: ''
   });
 
   let chatroomList = [];
@@ -32,7 +33,7 @@ function ChatRooms() {
           headerStuff
         );
         const chatroomsList = await response.json();
-
+        
         if (chatroomsList.Chatrooms != null) {
           //to make things quick lets assign a key to each item on the array
           let i = 0;
@@ -79,7 +80,7 @@ function ChatRooms() {
             );
           });
 
-          getChatRooms({ chatRooms: chatroomList, loading: false }); //now that we have the chat room list, we can go ahead and set the state to include the chat rooms.
+          getChatRooms({ chatRooms: chatroomList, loading: false, userLogedIn: chatroomsList.currentUser }); //now that we have the chat room list, we can go ahead and set the state to include the chat rooms.
         }
       } catch (err) {
         console.error("the error found is: ", err);
@@ -105,7 +106,6 @@ function ChatRooms() {
           headerStuff
         );
         const chatroomsList = await response.json();
-
         if (chatroomsList.Chatrooms != null) {
           //to make things quick lets assign a key to each item on the array
           let i = 0;
@@ -152,7 +152,7 @@ function ChatRooms() {
             );
           });
 
-          getChatRooms({ chatRooms: chatroomList, loading: false }); //now that we have the chat room list, we can go ahead and set the state to include the chat rooms.
+          getChatRooms({ chatRooms: chatroomList, loading: false, userLogedIn: chatroomsList.currentUser }); //now that we have the chat room list, we can go ahead and set the state to include the chat rooms.
         }
       } catch (err) {
         console.error("the error found is: ", err);
@@ -165,6 +165,7 @@ function ChatRooms() {
 
   return chatRooms.chatRooms.length > 0 ? (
     <div className={styles.chatRoomsContainerChatRooms}>
+      <h2 className = {styles.welcomeUser}>{t('chatRooms.welcome')}{chatRooms.userLogedIn}</h2>
       <main className={styles.chatRoomsMain}>{chatRooms.chatRooms}</main>
     </div>
   ) : chatRooms.loading ? (
