@@ -207,7 +207,7 @@ function ChatRoom() {
                 <p>
                   {todYesDayBefore == ""
                     ? timeCompare.toLocaleDateString(
-                        i18n.language == "es" ? "es-ES" : undefined,
+                        i18n.language == "es" ? ("es-ES") : ("en-US"),
                         { weekday: "short", month: "short", day: "numeric" }
                       )
                     : todYesDayBefore}
