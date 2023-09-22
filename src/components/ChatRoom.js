@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ChatRoom.module.css";
 import { useTranslation } from "react-i18next";
 
-
 //this is the component that will get the current chat room and load the messages found in this chat room:
 function ChatRoom() {
   //set the specific slug from the params using useParams:
@@ -29,14 +28,13 @@ function ChatRoom() {
       messageListEndRef.current != false &&
       messageListEndRef.current != true
     ) {
-
       return messageListEndRef.current.scrollIntoView();
     }
   }
 
   function scrollToBottom2() {
-    if (scrollButton.current.style.backgroundColor == '#09ff09') {
-      scrollButton.current.style.backgroundColor = 'white';
+    if (scrollButton.current.style.backgroundColor == "#09ff09") {
+      scrollButton.current.style.backgroundColor = "white";
     }
     return messagelisterEnd.current.scrollIntoView();
   }
@@ -81,14 +79,53 @@ function ChatRoom() {
           theResult.MessagesInChatRoom.length >
           messagesInTheChat.chatMessages.length
         ) {
-         
           messageListEndRef.current = true;
         } else {
           messageListEndRef.current = false;
         }
+        let timeCompare;
+        let xTime;
+        let diffDay = false;
+        let todYesDayBefore = "";
         messages = theResult.MessagesInChatRoom.map((x) => {
+          //in case a day was set, reset it
+          todYesDayBefore = "";
+
           //get the time of the message and adjust it to the proper time:
-          let xTime = new Date(x.dateCreated);
+          xTime = new Date(x.dateCreated);
+          if (timeCompare == null) {
+            timeCompare = new Date(x.dateCreated);
+            diffDay = true;
+          } else {
+
+            if (xTime.toDateString() == timeCompare.toDateString()) {
+              diffDay = false;
+              
+            } else {
+              //check if the message was sent today, yesterday, or the day before yesterday:
+              let today = new Date();
+              
+              if (xTime.toDateString() == today.toDateString()) {
+                todYesDayBefore = t("chatRooms.today");
+                diffDay = true;
+                timeCompare = new Date(x.dateCreated);
+              } else if (
+                xTime.getDate() ==
+                  today.getDate(today.setDate(today.getDate() - 1)) &&
+                xTime.getMonth() ==
+                  today.getMonth(today.setDate(today.getDate() - 1)) &&
+                xTime.getFullYear() ==
+                  today.getFullYear(today.setDate(today.getDate() - 1))
+              ) {
+                todYesDayBefore = t("chatRooms.yesterday");
+                diffDay = true;
+                timeCompare = new Date(x.dateCreated);
+              } else {
+                diffDay = true;
+                timeCompare = new Date(x.dateCreated);
+              }
+            }
+          }
 
           if (!theResult.MessagesInChatRoom[x + 1]) {
             lastOne = true;
@@ -164,7 +201,19 @@ function ChatRoom() {
             }
           }
 
-          return (
+          return [
+            diffDay ? (
+              <div className={styles.chatMessagesContainerMessageTimeMessage}>
+                <p>
+                  {todYesDayBefore == ""
+                    ? timeCompare.toLocaleDateString(
+                        i18n.language == "es" ? "es-ES" : undefined,
+                        { weekday: "short", month: "short", day: "numeric" }
+                      )
+                    : todYesDayBefore}
+                </p>
+              </div>
+            ) : null,
             <div
               className={
                 theResult.currentUser == x.author
@@ -226,7 +275,7 @@ function ChatRoom() {
                             {xTime.toLocaleTimeString([], {
                               hour: "numeric",
                               minute: "2-digit",
-                              hour12: true
+                              hour12: true,
                             })}
                           </span>
                         </div>
@@ -237,8 +286,8 @@ function ChatRoom() {
                 </div>
               </div>
               <span style={{ fontSize: "11px" }}>{x.author}</span>
-            </div>
-          );
+            </div>,
+          ];
         });
 
         //this if check will update the state if the messages list contains at least one message:
@@ -264,10 +313,11 @@ function ChatRoom() {
       }
     }, 1200);
 
-    if (scrollButton.current.style.display == 'block' && messageListEndRef.current != false) {
-      
-        scrollButton.current.style.backgroundColor = '#09ff09';
-      
+    if (
+      scrollButton.current.style.display == "block" &&
+      messageListEndRef.current != false
+    ) {
+      scrollButton.current.style.backgroundColor = "#09ff09";
     }
 
     let scrollDiv = document.querySelector(".scroll-window");
@@ -280,37 +330,37 @@ function ChatRoom() {
       scrollToBottom2();
     }
 
-    if (scrollButton.current.style.display == 'none' && scrollDiv.scrollTop != 0) {
+    if (
+      scrollButton.current.style.display == "none" &&
+      scrollDiv.scrollTop != 0
+    ) {
       // if (
       //   scrollDiv.scrollTop == scrollDiv.scrollHeight - scrollDiv.offsetHeight - (messageListEndRef.current.offsetHeight + 12)
       // ) {
       //   scrollToBottom();
       // }
-      if (messageListEndRef.current != false ) {
+      if (messageListEndRef.current != false) {
         scrollToBottom();
       }
-      
     }
 
     return () => clearInterval(interval);
   }, [messagesInTheChat.chatMessages]);
 
-
   function scrollme(e) {
     let scrollDiv = document.querySelector(".scroll-window");
     if (scrollDiv.scrollTop < scrollDiv.scrollHeight - scrollDiv.offsetHeight) {
       scrollButton.current.style.display = "block";
-      
     } else {
       scrollButton.current.style.display = "none";
-      scrollButton.current.style.backgroundColor = 'white';
+      scrollButton.current.style.backgroundColor = "white";
     }
   }
 
   //function for sending a message through mobile site.
   async function sendMessageMobile(e) {
     e.preventDefault();
-    
+
     messageSenderMobile.current.focus();
     let formData = e.target;
     let messageInfo = new FormData();
@@ -350,8 +400,6 @@ function ChatRoom() {
     } catch (err) {
       console.error(err);
     }
-
-    
 
     //only call the request if there are no messages. This is only called when the user sent the initial message
     if (messagesInTheChat.chatMessages.length <= 0) {
@@ -404,7 +452,6 @@ function ChatRoom() {
       } catch (err) {
         console.error(err);
       }
-      
 
       //only call the request if there are no messages. This is only called when the user sent the initial message
       if (messagesInTheChat.chatMessages.length <= 0) {
@@ -490,7 +537,6 @@ function ChatRoom() {
                     className={[styles.scrollToBottom, "scrollButton"].join(
                       " "
                     )}
-                    
                     ref={scrollButton}
                     onClick={scrollToBottom2}
                   >

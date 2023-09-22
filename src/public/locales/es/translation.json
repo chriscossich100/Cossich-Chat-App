@@ -28,7 +28,10 @@
     "noYourChatRooms": "No Has Creado Ningun Cuarto",
     "createdBy": "Creado Por",
     "chatRoomDefaultMessage": "Bienvenidos a este cuarto de chat. No se permite el acoso o mensajes que promueven la violencia. Si a caso se encuentran mensajes que van en contra estas reglas la cuenta a la que los mensajes pertenecen será prohibido.",
-    "welcome": "Bienvenido! "
+    "welcome": "Bienvenido! ",
+    "dateChage": "es-ES",
+    "today": "Hoy",
+    "yesterday": "Ayer"
   },
   "createChatRooms": {
     "create": "Crear Cuarto De Chat",

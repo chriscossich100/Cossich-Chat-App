@@ -111,15 +111,15 @@
     left: 0;
     right: 0;
     overflow: hidden;
-    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
     /* background-color: rgba(255,255,255,.95); */
     display: none;
   }
 
   .navOverlayNav {
     top: 0;
-    height: auto;
     min-height: 100vh;
+    /* height: calc(100vh - 64px); */
     background-color: rgba(255, 255, 255, 0.95);
     text-align: center;
     min-width: 200px;
@@ -127,7 +127,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    overflow: visible;
+    overflow: hidden;
     display: block !important;
     transform: translateY(-1200px) translateX(0px);
     transition: transform 1000ms ease 0s;
