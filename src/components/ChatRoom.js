@@ -113,9 +113,9 @@ function ChatRoom() {
                 xTime.getDate() ==
                   today.getDate(today.setDate(today.getDate() - 1)) &&
                 xTime.getMonth() ==
-                  today.getMonth(today.setDate(today.getDate() - 1)) &&
+                  today.getMonth() &&
                 xTime.getFullYear() ==
-                  today.getFullYear(today.setDate(today.getDate() - 1))
+                  today.getFullYear()
               ) {
                 todYesDayBefore = t("chatRooms.yesterday");
                 diffDay = true;
