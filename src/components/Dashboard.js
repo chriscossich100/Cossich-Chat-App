@@ -75,7 +75,7 @@ export default function Dashboard() {
               className={styles.navOverlayDivLink}
               onClick={onChangeLanguage}
             >
-              {i18n.language == "es" ? "🇺🇸" : "🇪🇸"}
+              {i18n.language == "es" ? "🇺🇸US" : "🇲🇽ES"}
             </NavLink>
           </div>
         </nav>
@@ -98,7 +98,7 @@ export default function Dashboard() {
             {t("navigation.Link6")}
           </NavLink>
           <NavLink className={styles.navLink} onClick={onChangeLanguage}>
-            {i18n.language == "es" ? "EN" : "ES"}
+            {i18n.language == "es" ? "🇺🇸EN" : "🇲🇽ES"}
           </NavLink>
         </nav>
 

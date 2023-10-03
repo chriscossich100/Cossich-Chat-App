@@ -1,7 +1,7 @@
 
 
 .chatRoomsContainer {
-    min-height: calc(100vh - 64px);
+    height: calc(100vh - 65px);
     
     display: flex;
     width: 100%;
@@ -10,7 +10,7 @@
 }
 
 .welcomeUser {
-    font-size: 36px;
+    
     margin-bottom: 0px;
 }
 
@@ -130,6 +130,11 @@
 
 
 @media (max-width: 512px) {
+
+    .chatRoomsContainer {
+        min-height: calc(100vh - 64px);
+    }
+
     .chatRoomsMain {
        
         flex-direction: column;

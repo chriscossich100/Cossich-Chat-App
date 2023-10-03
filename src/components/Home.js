@@ -32,7 +32,7 @@ export default function Home() {
              {t('navigation.Link2')}
             </NavLink> */}
             <NavLink className={styles.navLink} onClick={onChangeLanguage}>
-              {i18n.language == "es" ? "EN" : "ES"}
+              {i18n.language == "es" ? "🇺🇸EN" : "🇲🇽ES"}
             </NavLink>
           </nav>
         </div>
