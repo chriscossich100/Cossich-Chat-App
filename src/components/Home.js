@@ -31,8 +31,8 @@ export default function Home() {
             {/* <NavLink className={styles.navLink} to="https://github.com/chriscossich100?tab=repositories">
              {t('navigation.Link2')}
             </NavLink> */}
-            <NavLink className={styles.navLink} onClick={onChangeLanguage}>
-              {i18n.language == "es" ? "🇺🇸EN" : "🇲🇽ES"}
+            <NavLink style = {{fontSize: "10px"}}className={styles.navLink} onClick={onChangeLanguage}>
+              {i18n.language == "es" ? "English" : "Español"}
             </NavLink>
           </nav>
         </div>

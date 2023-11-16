@@ -69,7 +69,7 @@ function ChatRoom() {
         header
       );
       const theResult = await response.json();
-
+        console.log(theResult);
       //return the user back to the list of chat rooms if the chat room cant be found (if user manually types in the chat room in the url):
       if (!theResult.RoomFound) {
         navigate("/home/chatrooms");
