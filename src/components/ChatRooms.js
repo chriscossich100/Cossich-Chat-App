@@ -174,7 +174,7 @@ function ChatRooms() {
     </div>
   ) : (
     <div className={styles.chatRoomsContainer}>
-      <h1 style={{ margin: "0px" }}>{t("chatRooms.noChatRooms")}</h1>
+      <h1 id = "noChatRooms" style={{ margin: "0px" }}>{t("chatRooms.noChatRooms")}</h1>
     </div>
   );
 }

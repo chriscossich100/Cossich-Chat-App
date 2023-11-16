@@ -1,7 +1,7 @@
 
 
 .chatRoomsContainer {
-    height: calc(100vh - 65px);
+    min-height: calc(100vh - 59px);
     
     display: flex;
     width: 100%;
@@ -133,6 +133,10 @@
 
     .chatRoomsContainer {
         min-height: calc(100vh - 64px);
+    }
+
+    .chatRoomsContainer h1 {
+        font-size: 20px;
     }
 
     .chatRoomsMain {

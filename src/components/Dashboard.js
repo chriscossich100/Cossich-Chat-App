@@ -72,10 +72,11 @@ export default function Dashboard() {
               {t("navigation.Link3")}
             </NavLink>
             <NavLink
+              style = {{fontSize: '10px'}}
               className={styles.navOverlayDivLink}
               onClick={onChangeLanguage}
             >
-              {i18n.language == "es" ? "🇺🇸US" : "🇲🇽ES"}
+              {i18n.language == "es" ? "English" : "Español"}
             </NavLink>
           </div>
         </nav>
@@ -97,8 +98,11 @@ export default function Dashboard() {
           <NavLink className={styles.navLink} to="mychatrooms/">
             {t("navigation.Link6")}
           </NavLink>
-          <NavLink className={styles.navLink} onClick={onChangeLanguage}>
-            {i18n.language == "es" ? "🇺🇸EN" : "🇲🇽ES"}
+          <NavLink 
+          style = {{fontSize: "10px"}}
+          className={styles.navLink} 
+          onClick={onChangeLanguage}>
+            {i18n.language == "es" ? "English" : "Español"}
           </NavLink>
         </nav>
 
